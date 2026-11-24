@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Calendário Navios Ro-Ro • MultiTerminais T5</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #031326;
+      --card: #08213b;
+      --section: #051930;
+      --border: rgba(56, 189, 248, 0.18);
+      --line: rgba(255, 255, 255, 0.08);
+      --text: #f8fafc;
+      --sec: #94a3b8;
+      --muted: #64748b;
+      --blue: #38bdf8;
+      --green: #22c55e;
+      --amber: #f59e0b;
+      --orange: #f97316;
+      --red: #ef4444;
+      --r-sm: 6px;
+      --r-md: 10px;
+      --r-lg: 16px;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      color-scheme: dark;
+      background: var(--bg);
+      overflow-x: hidden;
+      width: 100%;
+      max-width: 100vw;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--text);
+      background: var(--bg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 32px;
+      overflow-x: hidden;
+      width: 100%;
+      max-width: 100vw;
+      position: relative;
+    }
+    button, select, input { font: inherit; color: inherit; }
+    button { cursor: pointer; border: 0; background: none; }
+    a { color: inherit; text-decoration: none; }
+
+    /* HEADER */
+    .top-header {
+      background: var(--section);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 16px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      width: 100%;
+    }
+    .header-inner {
+      max-width: 1040px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    @media (max-width: 600px) {
+      .header-inner {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+      }
+    }
+    .eyebrow {
+      color: var(--blue);
+      font: 700 10px/1.2 "Space Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .app-title {
+      font: 800 24px/1.15 "Barlow Condensed", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-top: 2px;
+    }
+    .header-date-display {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+      font: 700 11.5px/1.35 "Space Mono", monospace;
+      color: var(--amber);
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      padding: 4px 10px;
+      border-radius: 6px;
+      max-width: 100%;
+      word-break: break-word;
+    }
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      border-radius: 99px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      font: 700 10px "Space Mono", monospace;
+      color: var(--blue);
+      text-transform: uppercase;
+      max-width: 100%;
+      line-height: 1.25;
+      align-self: flex-start;
+    }
+    .status-pill.ok {
+      background: rgba(34, 197, 94, 0.12);
+      border-color: rgba(34, 197, 94, 0.3);
+      color: var(--green);
+    }
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+      animation: pulse 1.6s infinite ease-in-out;
+      flex-shrink: 0;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(0.8); }
+    }
+
+    /* BANNER */
+    .scale-banner {
+      max-width: 1040px;
+      margin: 10px auto 0;
+      padding: 0 14px;
+      width: 100%;
+    }
+    .banner-box {
+      background: rgba(14, 116, 144, 0.18);
+      border: 1px solid rgba(56, 189, 248, 0.28);
+      border-radius: var(--r-md);
+      padding: 10px 12px;
+      font-size: 11.5px;
+      color: var(--sec);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      word-break: break-word;
+    }
+    .banner-badge {
+      font: 700 9px "Space Mono", monospace;
+      text-transform: uppercase;
+      background: var(--blue);
+      color: #021020;
+      padding: 3px 7px;
+      border-radius: 4px;
+      white-space: nowrap;
+      flex: none;
+    }
+    .banner-text strong { color: var(--text); }
+
+    /* FILTER STRIP */
+    .filter-bar {
+      max-width: 1040px;
+      margin: 10px auto 6px;
+      padding: 0 14px;
+      width: 100%;
+    }
+    .filter-wrap {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 10px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 10px 12px;
+      align-items: end;
+    }
+    @media (max-width: 600px) {
+      .filter-wrap { grid-template-columns: 1fr; }
+    }
+    .filter-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+    .filter-label {
+      color: var(--muted);
+      font: 700 9px "Space Mono", monospace;
+      text-transform: uppercase;
+    }
+    .month-nav-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .month-step-btn {
+      height: 38px;
+      width: 36px;
+      border-radius: var(--r-sm);
+      background: rgba(3, 19, 38, 0.95);
+      border: 1px solid var(--line);
+      color: var(--blue);
+      font-weight: 800;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+    .month-step-btn:hover:not(:disabled) {
+      border-color: var(--blue);
+      background: rgba(56, 189, 248, 0.12);
+    }
+    .month-step-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+    .select-clean {
+      height: 38px;
+      padding: 0 10px;
+      background: rgba(3, 19, 38, 0.95);
+      border: 1px solid var(--line);
+      border-radius: var(--r-sm);
+      color: var(--text);
+      font-weight: 600;
+      font-size: 13px;
+      width: 100%;
+      min-width: 150px;
+    }
+
+    /* QUICK FILTER CHIPS */
+    .quick-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+      align-items: center;
+    }
+    .q-chip {
+      padding: 5px 10px;
+      border-radius: 99px;
+      font: 700 10px "Space Mono", monospace;
+      text-transform: uppercase;
+      background: var(--card);
+      border: 1px solid var(--line);
+      color: var(--sec);
+      transition: all 0.15s ease;
+    }
+    .q-chip:hover { border-color: var(--blue); color: var(--text); }
+    .q-chip.active {
+      background: rgba(56, 189, 248, 0.16);
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+    .q-chip.dom.active {
+      background: rgba(239, 68, 68, 0.16);
+      border-color: var(--red);
+      color: #fca5a5;
+    }
+    .q-chip.prat.active {
+      background: rgba(34, 197, 94, 0.16);
+      border-color: var(--green);
+      color: var(--green);
+    }
+    .day-clear-pill {
+      margin-left: auto;
+      padding: 5px 10px;
+      border-radius: 99px;
+      font: 700 10px "Space Mono", monospace;
+      background: rgba(56, 189, 248, 0.18);
+      border: 1px solid var(--blue);
+      color: var(--text);
+      display: none;
+    }
+    .day-clear-pill.visible { display: inline-flex; align-items: center; gap: 6px; }
+
+    /* MAIN CONTAINER */
+    main {
+      max-width: 1040px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 8px 14px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    /* SUMMARY KPIS */
+    .summary-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    @media (max-width: 700px) {
+      .summary-strip { grid-template-columns: repeat(2, 1fr); }
+    }
+    .sum-kpi {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 10px 12px;
+      position: relative;
+      overflow: hidden;
+    }
+    .sum-kpi::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 3px;
+      background: var(--tone, var(--blue));
+    }
+    .sum-kpi-lbl {
+      font: 700 9px "Space Mono", monospace;
+      text-transform: uppercase;
+      color: var(--sec);
+    }
+    .sum-kpi-val {
+      font: 900 28px/1 "Barlow Condensed", sans-serif;
+      color: var(--tone, var(--text));
+      margin: 6px 0 3px;
+    }
+    .sum-kpi-val.small-txt {
+      font: 800 16px/1.15 "Barlow Condensed", sans-serif;
+      text-transform: uppercase;
+    }
+    .sum-kpi-sub {
+      font-size: 10.5px;
+      color: var(--muted);
+      line-height: 1.25;
+    }
+
+    /* MINI & DESKTOP CALENDAR PANEL */
+    .mini-cal-panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 14px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow);
+    }
+    .mini-cal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .mini-cal-title {
+      font: 800 19px "Barlow Condensed", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .mini-cal-kicker {
+      color: var(--muted);
+      font: 700 9.5px "Space Mono", monospace;
+    }
+    .mini-cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+      text-align: center;
+    }
+    .mini-cal-dow {
+      color: var(--muted);
+      font: 700 9px "Space Mono", monospace;
+      padding-bottom: 4px;
+      text-transform: uppercase;
+    }
+    .mini-cal-dow.dom { color: #fca5a5; }
+    .mini-cal-day {
+      min-height: 44px;
+      border-radius: var(--r-sm);
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.02);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      cursor: pointer;
+      position: relative;
+      padding: 4px 2px;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.12s ease;
+    }
+    .mini-cal-day:hover:not(.empty) {
+      border-color: rgba(56, 189, 248, 0.55);
+      background: rgba(56, 189, 248, 0.08);
+    }
+    .mini-cal-day.empty {
+      border: 0;
+      background: none;
+      cursor: default;
+    }
+    .mini-cal-day.has-ship {
+      background: rgba(56, 189, 248, 0.12);
+      border-color: rgba(56, 189, 248, 0.45);
+    }
+    .mini-cal-day.has-prat {
+      background: rgba(34, 197, 94, 0.10);
+      border-color: rgba(34, 197, 94, 0.45);
+    }
+    .mini-cal-day.has-sunday-ship {
+      border-color: rgba(239, 68, 68, 0.55);
+      background: rgba(239, 68, 68, 0.09);
+    }
+    .mini-cal-day.selected {
+      outline: 2px solid var(--blue);
+      outline-offset: 1px;
+      background: rgba(56, 189, 248, 0.2);
+    }
+    .mini-cal-day.today {
+      box-shadow: inset 0 0 0 1.5px var(--green);
+    }
+    .cal-day-top {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      width: 100%;
+    }
+    .cal-day-num {
+      font: 700 12px "Space Mono", monospace;
+    }
+    .mini-cal-day.today .cal-day-num {
+      color: var(--green);
+    }
+    .cal-dots-row {
+      display: flex;
+      gap: 3px;
+      margin-top: 3px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .mini-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--blue);
+    }
+    .mini-dot.prat { background: var(--green); }
+    .mini-dot.dom { background: var(--red); }
+    .mini-dot.done { background: var(--sec); }
+
+    .cal-desktop-ships {
+      display: none;
+      width: 100%;
+      margin-top: 4px;
+      flex-direction: column;
+      gap: 3px;
+      text-align: left;
+    }
+    .cal-ship-pill {
+      font: 700 9.5px/1.2 "Barlow Condensed", sans-serif;
+      text-transform: uppercase;
+      padding: 2px 5px;
+      border-radius: 4px;
+      background: rgba(56, 189, 248, 0.16);
+      border-left: 2.5px solid var(--blue);
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .cal-ship-pill.prat {
+      background: rgba(34, 197, 94, 0.16);
+      border-left-color: var(--green);
+    }
+    .cal-ship-pill.atracado {
+      background: rgba(56, 189, 248, 0.22);
+      border-left-color: var(--blue);
+    }
+    .cal-ship-pill.dom {
+      background: rgba(239, 68, 68, 0.18);
+      border-left-color: var(--red);
+    }
+    .cal-ship-pill .eta-t {
+      font-family: "Space Mono", monospace;
+      font-size: 8.5px;
+      color: var(--amber);
+      margin-right: 3px;
+    }
+
+    @media (min-width: 720px) {
+      .mini-cal-day {
+        min-height: 86px;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: 6px;
+      }
+      .cal-day-top {
+        justify-content: space-between;
+      }
+      .cal-dots-row { display: none; }
+      .cal-desktop-ships { display: flex; }
+    }
+
+    .cal-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid var(--line);
+      font-size: 10.5px;
+      color: var(--sec);
+    }
+    .cal-legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .cal-legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    /* AGENDA CARDS */
+    .agenda-title {
+      font: 800 18px "Barlow Condensed", sans-serif;
+      text-transform: uppercase;
+      margin: 14px 0 10px;
+      color: var(--sec);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .agenda-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    @media (min-width: 820px) {
+      .agenda-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .agenda-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 14px 16px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: var(--shadow);
+    }
+    .agenda-card.active-day {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 1px var(--blue), var(--shadow);
+    }
+    .agenda-card.sunday-card {
+      border-color: rgba(239, 68, 68, 0.45);
+    }
+    .agenda-card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .agenda-date {
+      font: 700 12.5px "Space Mono", monospace;
+      color: var(--blue);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .badge-sunday {
+      padding: 1px 6px;
+      border-radius: 4px;
+      font: 700 9px "Space Mono", monospace;
+      background: rgba(239, 68, 68, 0.18);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+    }
+    .agenda-ship-name {
+      font: 900 24px/1.05 "Barlow Condensed", sans-serif;
+      text-transform: uppercase;
+      margin-top: 3px;
+    }
+    .agenda-meta {
+      color: var(--sec);
+      font-size: 11.5px;
+      margin-top: 4px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .badge-roro-puro {
+      display: inline-flex; align-items: center; padding: 2px 6px;
+      border-radius: 4px; font: 700 9px "Space Mono", monospace; text-transform: uppercase;
+      background: rgba(34, 197, 94, 0.12); color: var(--green); border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+    .badge-conro {
+      display: inline-flex; align-items: center; padding: 2px 6px;
+      border-radius: 4px; font: 700 9px "Space Mono", monospace; text-transform: uppercase;
+      background: rgba(245, 158, 11, 0.15); color: var(--amber); border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+
+    .badge-prat {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      border-radius: 99px;
+      font: 700 9px "Space Mono", monospace;
+      text-transform: uppercase;
+      white-space: nowrap;
+      flex: none;
+    }
+    .badge-prat.prat_ok {
+      background: rgba(34, 197, 94, 0.14);
+      color: var(--green);
+      border: 1px solid rgba(34, 197, 94, 0.35);
+    }
+    .badge-prat.atracado {
+      background: rgba(56, 189, 248, 0.16);
+      color: var(--blue);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+    }
+    .badge-prat.concluido {
+      background: rgba(148, 163, 184, 0.14);
+      color: var(--sec);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+    }
+    .badge-prat.aguardando {
+      background: rgba(245, 158, 11, 0.14);
+      color: var(--amber);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    /* SCHEDULE TIMES GRID */
+    .times-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 6px;
+    }
+    @media (max-width: 440px) {
+      .times-grid { grid-template-columns: 1fr; }
+    }
+    .time-box {
+      padding: 8px 10px;
+      border-radius: var(--r-sm);
+      background: rgba(3, 19, 38, 0.55);
+      border: 1px solid var(--line);
+    }
+    .time-box-lbl {
+      font: 700 9px "Space Mono", monospace;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .time-box-val {
+      font: 700 12.5px "Space Mono", monospace;
+      color: var(--text);
+      margin-top: 2px;
+    }
+    .prat-box {
+      margin-top: 8px;
+      padding: 9px 11px;
+      border-radius: var(--r-sm);
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid var(--line);
+      font-size: 11.5px;
+    }
+    .prat-box.ok {
+      background: rgba(34, 197, 94, 0.08);
+      border-color: rgba(34, 197, 94, 0.3);
+    }
+    .prat-box-title {
+      font: 700 9.5px "Space Mono", monospace;
+      text-transform: uppercase;
+      color: var(--sec);
+      margin-bottom: 3px;
+    }
+    .prat-box.ok .prat-box-title { color: var(--green); }
+    .div-pill {
+      display: inline-block;
+      margin-top: 4px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font: 700 10px "Space Mono", monospace;
+      background: rgba(245, 158, 11, 0.14);
+      color: var(--amber);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+    .div-pill.match {
+      background: rgba(34, 197, 94, 0.14);
+      color: var(--green);
+      border-color: rgba(34, 197, 94, 0.35);
+    }
+
+    .repeat-notice {
+      margin-top: 8px;
+      padding: 7px 10px;
+      border-radius: var(--r-sm);
+      background: rgba(56, 189, 248, 0.08);
+      border-left: 3px solid var(--blue);
+      font-size: 11px;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      line-height: 1.35;
+    }
+    .repeat-notice svg { width: 14px; height: 14px; stroke: var(--blue); fill: none; flex-shrink: 0; }
+
+    .alteracao-details {
+      margin-top: 8px;
+      border-radius: var(--r-sm);
+      background: rgba(245, 158, 11, 0.06);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      overflow: hidden;
+    }
+    .alteracao-summary {
+      padding: 7px 10px;
+      font: 700 10px "Space Mono", monospace;
+      text-transform: uppercase;
+      color: var(--amber);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      user-select: none;
+    }
+    .alteracao-summary svg { width: 13px; height: 13px; stroke: currentColor; fill: none; flex-shrink: 0; }
+    .alteracao-details[open] .alteracao-summary { border-bottom: 1px solid rgba(245, 158, 11, 0.2); }
+    .alteracao-box {
+      padding: 8px 10px;
+      font-size: 11px;
+      color: var(--sec);
+      line-height: 1.45;
+    }
+    .alteracao-box strong {
+      color: var(--amber);
+      display: block;
+      font: 700 9px "Space Mono", monospace;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .agenda-actions {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid var(--line);
+    }
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 10px;
+      border-radius: var(--r-sm);
+      font: 700 10px "Space Mono", monospace;
+      text-transform: uppercase;
+      background: rgba(56, 189, 248, 0.1);
+      color: var(--blue);
+      border: 1px solid rgba(56, 189, 248, 0.28);
+      transition: background 0.15s ease;
+    }
+    .btn-action:hover { background: rgba(56, 189, 248, 0.2); }
+    .btn-action svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+    footer {
+      max-width: 1040px;
+      margin: 22px auto 0;
+      padding: 0 14px;
+      width: 100%;
+      color: var(--muted);
+      font: 400 11px "Space Mono", monospace;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="top-header">
+    <div class="header-inner">
+      <div>
+        <div class="eyebrow">MULTITERMINAIS T5 / PRATICAGEM-RJ</div>
+        <h1 class="app-title">Calendário Mensal — Navios Ro-Ro</h1>
+        <div id="headerDateDisplay" class="header-date-display">
+          Sincronizando previsão...
+        </div>
+      </div>
+      <div id="statusScaleBadge" class="status-pill ok">
+        <i class="pulse-dot"></i>
+        <span id="scaleStatusText">Previsão MultiTerminais T5</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="scale-banner">
+    <div class="banner-box">
+      <span class="banner-badge">Lineup T5</span>
+      <div class="banner-text" id="scaleBannerText">
+        <strong>Previsão oficial da MultiTerminais confrontada com manobras da Praticagem-RJ.</strong>
+        Atualização automática sempre que houver alteração de atracação ou nova escala no site da Multi.
+      </div>
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <div class="filter-wrap">
+      <div class="filter-field">
+        <label for="monthSelect" class="filter-label">Mês da Programação</label>
+        <div class="month-nav-group">
+          <button type="button" class="month-step-btn" id="prevMonthBtn" aria-label="Mês anterior">◀</button>
+          <select class="select-clean" id="monthSelect" aria-label="Mês da Programação"></select>
+          <button type="button" class="month-step-btn" id="nextMonthBtn" aria-label="Próximo mês">▶</button>
+        </div>
+      </div>
+      <div class="filter-field">
+        <label for="shipSelect" class="filter-label">Filtrar Navio de Carros (Ro-Ro)</label>
+        <select class="select-clean" id="shipSelect" aria-label="Navio de Carros"></select>
+      </div>
+    </div>
+
+    <div class="quick-chips" id="quickChips">
+      <button type="button" class="q-chip active" data-mode="all">Todos</button>
+      <button type="button" class="q-chip" data-mode="previstos">Previstos</button>
+      <button type="button" class="q-chip prat" data-mode="praticagem">Com Praticagem</button>
+      <button type="button" class="q-chip dom" data-mode="domingos">Domingos</button>
+      <button type="button" class="q-chip" data-mode="atracados">Já Atracados / Passados</button>
+      <button type="button" class="day-clear-pill" id="clearDayBtn">Dia selecionado × Limpar</button>
+    </div>
+  </div>
+
+  <main>
+    <!-- KPIs DO MÊS -->
+    <section class="summary-strip" aria-label="Resumo do mês">
+      <article class="sum-kpi" style="--tone: var(--blue);">
+        <div class="sum-kpi-lbl">Escalas no Mês</div>
+        <div class="sum-kpi-val" id="kpiTotalMes">0</div>
+        <div class="sum-kpi-sub" id="kpiTotalMesSub">navios de carro no T5</div>
+      </article>
+      <article class="sum-kpi" style="--tone: var(--green);">
+        <div class="sum-kpi-lbl">Na Praticagem RJ</div>
+        <div class="sum-kpi-val" id="kpiPratMes">0</div>
+        <div class="sum-kpi-sub" id="kpiPratMesSub">manobras confirmadas</div>
+      </article>
+      <article class="sum-kpi" style="--tone: var(--red);">
+        <div class="sum-kpi-lbl">Aos Domingos</div>
+        <div class="sum-kpi-val" id="kpiDomMes">0</div>
+        <div class="sum-kpi-sub" id="kpiDomMesSub">atenção especial</div>
+      </article>
+      <article class="sum-kpi" style="--tone: var(--amber);">
+        <div class="sum-kpi-lbl">Próxima Atracação</div>
+        <div class="sum-kpi-val small-txt" id="kpiProxNavio">—</div>
+        <div class="sum-kpi-sub" id="kpiProxData">sem escala futura</div>
+      </article>
+    </section>
+
+    <!-- CALENDÁRIO MENSAL -->
+    <section class="mini-cal-panel" aria-label="Calendário Mensal Ro-Ro">
+      <div class="mini-cal-head">
+        <h2 class="mini-cal-title" id="calMonthTitle">Novembro / 2026</h2>
+        <span class="mini-cal-kicker">MultiTerminais T5 • Toque em um dia para filtrar</span>
+      </div>
+      <div class="mini-cal-grid" id="miniCalGrid"></div>
+      <div class="cal-legend">
+        <span class="cal-legend-item"><i class="cal-legend-dot" style="background:var(--blue)"></i> Previsto MultiTerminais</span>
+        <span class="cal-legend-item"><i class="cal-legend-dot" style="background:var(--green)"></i> Praticagem Confirmada</span>
+        <span class="cal-legend-item"><i class="cal-legend-dot" style="background:var(--red)"></i> Atracação no Domingo</span>
+        <span class="cal-legend-item"><i class="cal-legend-dot" style="background:var(--sec)"></i> Atracado / Passado</span>
+      </div>
+    </section>
+
+    <!-- CARDS DETALHADOS DAS ESCALAS -->
+    <div class="agenda-title">
+      <span id="agendaHeading">Programação de Navios de Carros no Mês</span>
+      <span id="agendaCount" style="font:700 11px 'Space Mono',monospace;color:var(--blue);">0 escalas</span>
+    </div>
+    <div class="agenda-grid" id="agendaCardsList"></div>
+  </main>
+
+  <footer id="footerText">MultiTerminais T5 + Praticagem-RJ • Atualização automática</footer>
+
+  <script>
+    const DATA = {"meta":{"geradoEm":"24/11/2026 17:39","fonte":"MultiTerminais T5 + Praticagem-RJ","urlPages":"https://gakimic.github.io/calendario-roro/"},"meses":[{"key":"2026-11","label":"Novembro / 2026","ano":2026,"mes":11,"is_atual":true,"primeiro_dia_semana":6,"total_dias":30,"navios_roro":[{"nome_base":"GRANDE AMBURGO","ja_atracado":true,"ja_passou":false},{"nome_base":"POLARIS LEADER","ja_atracado":true,"ja_passou":false},{"nome_base":"GRANDE GUINEA","ja_atracado":false,"ja_passou":false},{"nome_base":"BRASILIA HIGHWAY","ja_atracado":false,"ja_passou":false},{"nome_base":"HORIZON RAY","ja_atracado":false,"ja_passou":false}],"dias":[{"dia":1,"data_iso":"2026-11-01","data_br":"01/11/2026","dia_semana":"Domingo","eh_domingo":true,"hoje":false,"tem_navio":false,"navios":[]},{"dia":2,"data_iso":"2026-11-02","data_br":"02/11/2026","dia_semana":"Segunda-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":3,"data_iso":"2026-11-03","data_br":"03/11/2026","dia_semana":"Terça-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":4,"data_iso":"2026-11-04","data_br":"04/11/2026","dia_semana":"Quarta-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":5,"data_iso":"2026-11-05","data_br":"05/11/2026","dia_semana":"Quinta-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":6,"data_iso":"2026-11-06","data_br":"06/11/2026","dia_semana":"Sexta-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":7,"data_iso":"2026-11-07","data_br":"07/11/2026","dia_semana":"Sábado","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":8,"data_iso":"2026-11-08","data_br":"08/11/2026","dia_semana":"Domingo","eh_domingo":true,"hoje":false,"tem_navio":false,"navios":[]},{"dia":9,"data_iso":"2026-11-09","data_br":"09/11/2026","dia_semana":"Segunda-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":10,"data_iso":"2026-11-10","data_br":"10/11/2026","dia_semana":"Terça-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":11,"data_iso":"2026-11-11","data_br":"11/11/2026","dia_semana":"Quarta-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":12,"data_iso":"2026-11-12","data_br":"12/11/2026","dia_semana":"Quinta-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":13,"data_iso":"2026-11-13","data_br":"13/11/2026","dia_semana":"Sexta-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":14,"data_iso":"2026-11-14","data_br":"14/11/2026","dia_semana":"Sábado","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":15,"data_iso":"2026-11-15","data_br":"15/11/2026","dia_semana":"Domingo","eh_domingo":true,"hoje":false,"tem_navio":false,"navios":[]},{"dia":16,"data_iso":"2026-11-16","data_br":"16/11/2026","dia_semana":"Segunda-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":17,"data_iso":"2026-11-17","data_br":"17/11/2026","dia_semana":"Terça-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":18,"data_iso":"2026-11-18","data_br":"18/11/2026","dia_semana":"Quarta-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":19,"data_iso":"2026-11-19","data_br":"19/11/2026","dia_semana":"Quinta-feira","eh_domingo":false,"hoje":false,"tem_navio":true,"navios":[{"navio_base":"GRANDE AMBURGO","viagem":"526N","srv":"GRIMALDI","armador":"GRIMALDI","tipo_navio":"CON_RO","tipo_navio_label":"Con-Ro Híbrido","atracacao":"19/11/2026 22:30","atracacao_real":"19/11/2026 22:23","saida":"21/11/2026 14:30","saida_real":"21/11 14:30","data_iso":"2026-11-19","atracacao_iso_full":"2026-11-19T22:23:00-03:00","hora_atracacao":"22:23","mes_key":"2026-11","ja_atracado":true,"ja_passou":false,"badge_tipo":"atracado","badge_label":"Atracado no T5","praticagem_confirmada":"NÃO","praticagem_entrada":"","praticagem_terminal":"","praticagem_divergencia_texto":"","praticagem_sem_divergencia":false,"historico_alteracoes":[{"campo":"Atracação","de":"19/11/2026 16:30","para":"19/11/2026 22:30","data_coleta":"19/11 08:18","texto":"[19/11 08:18] Atracação: 19/11/2026 16:30 → 19/11/2026 22:30"},{"campo":"Saída","de":"20/11/2026 14:30","para":"20/11/2026 16:00","data_coleta":"18/11 15:05","texto":"[18/11 15:05] Saída: 20/11/2026 14:30 → 20/11/2026 16:00"},{"campo":"Atracação","de":"19/11/2026 20:30","para":"19/11/2026 16:30","data_coleta":"18/11 11:33","texto":"[18/11 11:33] Atracação: 19/11/2026 20:30 → 19/11/2026 16:30"},{"campo":"Atracação","de":"19/11/2026 12:30","para":"19/11/2026 20:30","data_coleta":"18/11 10:02","texto":"[18/11 10:02] Atracação: 19/11/2026 12:30 → 19/11/2026 20:30"},{"campo":"Saída","de":"20/11/2026 22:30","para":"20/11/2026 14:30","data_coleta":"16/11 09:37","texto":"[16/11 09:37] Saída: 20/11/2026 22:30 → 20/11/2026 14:30"},{"campo":"Atracação","de":"19/11/2026 20:30","para":"19/11/2026 12:30","data_coleta":"16/11 09:37","texto":"[16/11 09:37] Atracação: 19/11/2026 20:30 → 19/11/2026 12:30"},{"campo":"Atracação","de":"20/11/2026 01:30","para":"19/11/2026 20:30","data_coleta":"16/11 09:07","texto":"[16/11 09:07] Atracação: 20/11/2026 01:30 → 19/11/2026 20:30"},{"campo":"Saída","de":"20/11/2026 08:30","para":"20/11/2026 22:30","data_coleta":"16/11 06:36","texto":"[16/11 06:36] Saída: 20/11/2026 08:30 → 20/11/2026 22:30"},{"campo":"Atracação","de":"19/11/2026 08:30","para":"20/11/2026 01:30","data_coleta":"16/11 06:36","texto":"[16/11 06:36] Atracação: 19/11/2026 08:30 → 20/11/2026 01:30"},{"campo":"Saída","de":"17/11/2026 08:30","para":"20/11/2026 08:30","data_coleta":"12/11 10:42","texto":"[12/11 10:42] Saída: 17/11/2026 08:30 → 20/11/2026 08:30"},{"campo":"Atracação","de":"16/11/2026 08:30","para":"19/11/2026 08:30","data_coleta":"12/11 10:42","texto":"[12/11 10:42] Atracação: 16/11/2026 08:30 → 19/11/2026 08:30"},{"campo":"Saída","de":"13/11/2026 07:00","para":"17/11/2026 08:30","data_coleta":"06/11 13:15","texto":"[06/11 13:15] Saída: 13/11/2026 07:00 → 17/11/2026 08:30"},{"campo":"Atracação","de":"12/11/2026 07:00","para":"16/11/2026 08:30","data_coleta":"06/11 13:15","texto":"[06/11 13:15] Atracação: 12/11/2026 07:00 → 16/11/2026 08:30"},{"campo":"Saída","de":"15/11/2026 07:00","para":"13/11/2026 07:00","data_coleta":"03/11 14:05","texto":"[03/11 14:05] Saída: 15/11/2026 07:00 → 13/11/2026 07:00"},{"campo":"Atracação","de":"14/11/2026 07:00","para":"12/11/2026 07:00","data_coleta":"03/11 14:05","texto":"[03/11 14:05] Atracação: 14/11/2026 07:00 → 12/11/2026 07:00"},{"campo":"Saída","de":"15/11/2026 07:00","para":"28/10/2026 21:40","data_coleta":"28/10 05:05","texto":"[28/10 05:05] Saída: 15/11/2026 07:00 → 28/10/2026 21:40"},{"campo":"Atracação","de":"14/11/2026 07:00","para":"28/10/2026 04:30","data_coleta":"28/10 05:05","texto":"[28/10 05:05] Atracação: 14/11/2026 07:00 → 28/10/2026 04:30"},{"campo":"Atracação","de":"14/11/2026 07:00","para":"27/10/2026 21:30","data_coleta":"27/10 08:59","texto":"[27/10 08:59] Atracação: 14/11/2026 07:00 → 27/10/2026 21:30"},{"campo":"Saída","de":"15/11/2026 07:00","para":"31/10/2026 06:40","data_coleta":"27/10 07:59","texto":"[27/10 07:59] Saída: 15/11/2026 07:00 → 31/10/2026 06:40"},{"campo":"Atracação","de":"14/11/2026 07:00","para":"30/10/2026 06:30","data_coleta":"27/10 07:59","texto":"[27/10 07:59] Atracação: 14/11/2026 07:00 → 30/10/2026 06:30"},{"campo":"Saída","de":"13/11/2026 07:00","para":"15/11/2026 07:00","data_coleta":"26/10 15:51","texto":"[26/10 15:51] Saída: 13/11/2026 07:00 → 15/11/2026 07:00"},{"campo":"Atracação","de":"12/11/2026 07:00","para":"14/11/2026 07:00","data_coleta":"26/10 15:51","texto":"[26/10 15:51] Atracação: 12/11/2026 07:00 → 14/11/2026 07:00"},{"campo":"Saída","de":"13/11/2026 07:00","para":"31/10/2026 06:40","data_coleta":"26/10 15:51","texto":"[26/10 15:51] Saída: 13/11/2026 07:00 → 31/10/2026 06:40"},{"campo":"Atracação","de":"12/11/2026 07:00","para":"30/10/2026 06:30","data_coleta":"26/10 15:51","texto":"[26/10 15:51] Atracação: 12/11/2026 07:00 → 30/10/2026 06:30"},{"campo":"Saída","de":"13/11/2026 07:00","para":"29/10/2026 07:00","data_coleta":"20/10 11:32","texto":"[20/10 11:32] Saída: 13/11/2026 07:00 → 29/10/2026 07:00"},{"campo":"Atracação","de":"12/11/2026 07:00","para":"28/10/2026 07:00","data_coleta":"20/10 11:32","texto":"[20/10 11:32] Atracação: 12/11/2026 07:00 → 28/10/2026 07:00"},{"campo":"Saída","de":"26/10/2026 07:00","para":"13/11/2026 07:00","data_coleta":"16/10 10:23","texto":"[16/10 10:23] Saída: 26/10/2026 07:00 → 13/11/2026 07:00"},{"campo":"Atracação","de":"25/10/2026 07:00","para":"12/11/2026 07:00","data_coleta":"16/10 10:23","texto":"[16/10 10:23] Atracação: 25/10/2026 07:00 → 12/11/2026 07:00"},{"campo":"Saída","de":"26/10/2026 07:00","para":"29/10/2026 07:00","data_coleta":"16/10 10:23","texto":"[16/10 10:23] Saída: 26/10/2026 07:00 → 29/10/2026 07:00"},{"campo":"Atracação","de":"25/10/2026 07:00","para":"28/10/2026 07:00","data_coleta":"16/10 10:23","texto":"[16/10 10:23] Atracação: 25/10/2026 07:00 → 28/10/2026 07:00"}],"link_marinetraffic":"https://www.marinetraffic.com/en/ais/details/ships/imo:9246607","link_vesselfinder":"https://www.vesselfinder.com/vessels?name=9246607","link_gcal":"https://calendar.google.com/calendar/render?action=TEMPLATE&text=Atraca%C3%A7%C3%A3o+prevista+%E2%80%94+GRANDE+AMBURGO&dates=20261120T013000Z%2F20261120T020000Z&ctz=America%2FSao_Paulo&location=Terminal+T5+%E2%80%94+MultiTerminais+%28Porto+do+Rio+de+Janeiro%29&details=Armador%3A+GRIMALDI%0AViagem%3A+526N%0AFonte%3A+MultiTerminais+T5+%28previs%C3%A3o+sujeita+a+altera%C3%A7%C3%B5es%29.","aviso_repeticao":""}]},{"dia":20,"data_iso":"2026-11-20","data_br":"20/11/2026","dia_semana":"Sexta-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":21,"data_iso":"2026-11-21","data_br":"21/11/2026","dia_semana":"Sábado","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":22,"data_iso":"2026-11-22","data_br":"22/11/2026","dia_semana":"Domingo","eh_domingo":true,"hoje":false,"tem_navio":false,"navios":[]},{"dia":23,"data_iso":"2026-11-23","data_br":"23/11/2026","dia_semana":"Segunda-feira","eh_domingo":false,"hoje":false,"tem_navio":true,"navios":[{"navio_base":"POLARIS LEADER","viagem":"101SB","srv":"NYK","armador":"NYK LINE","tipo_navio":"RORO_PURO","tipo_navio_label":"Ro-Ro Puro (PCTC)","atracacao":"23/11/2026 09:25","atracacao_real":"23/11/2026 09:25","saida":"24/11/2026 17:30","saida_real":"24/11 17:30","data_iso":"2026-11-23","atracacao_iso_full":"2026-11-23T09:25:00-03:00","hora_atracacao":"09:25","mes_key":"2026-11","ja_atracado":true,"ja_passou":false,"badge_tipo":"atracado","badge_label":"Atracado no T5","praticagem_confirmada":"NÃO","praticagem_entrada":"","praticagem_terminal":"","praticagem_divergencia_texto":"","praticagem_sem_divergencia":false,"historico_alteracoes":[{"campo":"Saída","de":"24/11/2026 07:00","para":"24/11/2026 17:30","data_coleta":"24/11 07:45","texto":"[24/11 07:45] Saída: 24/11/2026 07:00 → 24/11/2026 17:30"},{"campo":"Atracação","de":"23/11/2026 09:30","para":"23/11/2026 09:25","data_coleta":"24/11 07:45","texto":"[24/11 07:45] Atracação: 23/11/2026 09:30 → 23/11/2026 09:25"},{"campo":"Atracação","de":"23/11/2026 07:00","para":"23/11/2026 09:30","data_coleta":"23/11 07:58","texto":"[23/11 07:58] Atracação: 23/11/2026 07:00 → 23/11/2026 09:30"}],"link_marinetraffic":"https://www.marinetraffic.com/en/ais/details/ships/imo:9372810","link_vesselfinder":"https://www.vesselfinder.com/vessels?name=9372810","link_gcal":"https://calendar.google.com/calendar/render?action=TEMPLATE&text=Atraca%C3%A7%C3%A3o+prevista+%E2%80%94+POLARIS+LEADER&dates=20261123T122500Z%2F20261123T125500Z&ctz=America%2FSao_Paulo&location=Terminal+T5+%E2%80%94+MultiTerminais+%28Porto+do+Rio+de+Janeiro%29&details=Armador%3A+NYK+LINE%0AViagem%3A+101SB%0AFonte%3A+MultiTerminais+T5+%28previs%C3%A3o+sujeita+a+altera%C3%A7%C3%B5es%29.","aviso_repeticao":""}]},{"dia":24,"data_iso":"2026-11-24","data_br":"24/11/2026","dia_semana":"Terça-feira","eh_domingo":false,"hoje":true,"tem_navio":false,"navios":[]},{"dia":25,"data_iso":"2026-11-25","data_br":"25/11/2026","dia_semana":"Quarta-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":26,"data_iso":"2026-11-26","data_br":"26/11/2026","dia_semana":"Quinta-feira","eh_domingo":false,"hoje":false,"tem_navio":true,"navios":[{"navio_base":"GRANDE GUINEA","viagem":"626S","srv":"GRIMALDI","armador":"GRIMALDI","tipo_navio":"CON_RO","tipo_navio_label":"Con-Ro Híbrido","atracacao":"26/11/2026 20:00","atracacao_real":"","saida":"28/11/2026 02:00","saida_real":"","data_iso":"2026-11-26","atracacao_iso_full":"2026-11-26T20:00:00-03:00","hora_atracacao":"20:00","mes_key":"2026-11","ja_atracado":false,"ja_passou":false,"badge_tipo":"aguardando","badge_label":"Previsto Multi","praticagem_confirmada":"NÃO","praticagem_entrada":"","praticagem_terminal":"","praticagem_divergencia_texto":"","praticagem_sem_divergencia":false,"historico_alteracoes":[{"campo":"Saída","de":"13/12/2026 07:00","para":"28/11/2026 02:00","data_coleta":"24/11 17:13","texto":"[24/11 17:13] Saída: 13/12/2026 07:00 → 28/11/2026 02:00"},{"campo":"Atracação","de":"12/12/2026 07:00","para":"26/11/2026 20:00","data_coleta":"24/11 17:13","texto":"[24/11 17:13] Atracação: 12/12/2026 07:00 → 26/11/2026 20:00"},{"campo":"Saída","de":"13/12/2026 07:00","para":"27/11/2026 07:00","data_coleta":"24/11 13:41","texto":"[24/11 13:41] Saída: 13/12/2026 07:00 → 27/11/2026 07:00"},{"campo":"Atracação","de":"12/12/2026 07:00","para":"26/11/2026 01:00","data_coleta":"24/11 13:41","texto":"[24/11 13:41] Atracação: 12/12/2026 07:00 → 26/11/2026 01:00"},{"campo":"Saída","de":"13/12/2026 07:00","para":"28/11/2026 07:00","data_coleta":"23/11 11:29","texto":"[23/11 11:29] Saída: 13/12/2026 07:00 → 28/11/2026 07:00"},{"campo":"Atracação","de":"12/12/2026 07:00","para":"27/11/2026 05:00","data_coleta":"23/11 11:29","texto":"[23/11 11:29] Atracação: 12/12/2026 07:00 → 27/11/2026 05:00"},{"campo":"Saída","de":"13/12/2026 07:00","para":"26/11/2026 07:00","data_coleta":"18/11 14:04","texto":"[18/11 14:04] Saída: 13/12/2026 07:00 → 26/11/2026 07:00"},{"campo":"Atracação","de":"12/12/2026 07:00","para":"25/11/2026 07:00","data_coleta":"18/11 14:04","texto":"[18/11 14:04] Atracação: 12/12/2026 07:00 → 25/11/2026 07:00"},{"campo":"Saída","de":"12/12/2026 07:00","para":"13/12/2026 07:00","data_coleta":"16/11 15:40","texto":"[16/11 15:40] Saída: 12/12/2026 07:00 → 13/12/2026 07:00"},{"campo":"Atracação","de":"11/12/2026 07:00","para":"12/12/2026 07:00","data_coleta":"16/11 15:40","texto":"[16/11 15:40] Atracação: 11/12/2026 07:00 → 12/12/2026 07:00"},{"campo":"Saída","de":"17/10/2026 07:00","para":"17/10/2026 19:00","data_coleta":"16/10 14:56","texto":"[16/10 14:56] Saída: 17/10/2026 07:00 → 17/10/2026 19:00"},{"campo":"Atracação","de":"16/10/2026 14:30","para":"17/10/2026 02:30","data_coleta":"16/10 14:56","texto":"[16/10 14:56] Atracação: 16/10/2026 14:30 → 17/10/2026 02:30"},{"campo":"Saída","de":"16/10/2026 23:00","para":"17/10/2026 07:00","data_coleta":"16/10 10:23","texto":"[16/10 10:23] Saída: 16/10/2026 23:00 → 17/10/2026 07:00"},{"campo":"Atracação","de":"16/10/2026 06:30","para":"16/10/2026 14:30","data_coleta":"16/10 10:23","texto":"[16/10 10:23] Atracação: 16/10/2026 06:30 → 16/10/2026 14:30"},{"campo":"Saída","de":"16/10/2026 07:00","para":"16/10/2026 23:00","data_coleta":"14/10 21:37","texto":"[14/10 21:37] Saída: 16/10/2026 07:00 → 16/10/2026 23:00"},{"campo":"Atracação","de":"15/10/2026 14:30","para":"16/10/2026 06:30","data_coleta":"14/10 21:37","texto":"[14/10 21:37] Atracação: 15/10/2026 14:30 → 16/10/2026 06:30"},{"campo":"Atracação","de":"15/10/2026 07:00","para":"15/10/2026 14:30","data_coleta":"12/10 08:23","texto":"[12/10 08:23] Atracação: 15/10/2026 07:00 → 15/10/2026 14:30"}],"link_marinetraffic":"https://www.marinetraffic.com/en/ais/details/ships/imo:9437919","link_vesselfinder":"https://www.vesselfinder.com/vessels?name=9437919","link_gcal":"https://calendar.google.com/calendar/render?action=TEMPLATE&text=Atraca%C3%A7%C3%A3o+prevista+%E2%80%94+GRANDE+GUINEA&dates=20261126T230000Z%2F20261126T233000Z&ctz=America%2FSao_Paulo&location=Terminal+T5+%E2%80%94+MultiTerminais+%28Porto+do+Rio+de+Janeiro%29&details=Armador%3A+GRIMALDI%0AViagem%3A+626S%0AFonte%3A+MultiTerminais+T5+%28previs%C3%A3o+sujeita+a+altera%C3%A7%C3%B5es%29.","aviso_repeticao":""}]},{"dia":27,"data_iso":"2026-11-27","data_br":"27/11/2026","dia_semana":"Sexta-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":28,"data_iso":"2026-11-28","data_br":"28/11/2026","dia_semana":"Sábado","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":29,"data_iso":"2026-11-29","data_br":"29/11/2026","dia_semana":"Domingo","eh_domingo":true,"hoje":false,"tem_navio":true,"navios":[{"navio_base":"BRASILIA HIGHWAY","viagem":"175A","srv":"K.LINE","armador":"K-LINE","tipo_navio":"RORO_PURO","tipo_navio_label":"Ro-Ro Puro (PCTC)","atracacao":"29/11/2026 12:30","atracacao_real":"","saida":"30/11/2026 13:00","saida_real":"","data_iso":"2026-11-29","atracacao_iso_full":"2026-11-29T12:30:00-03:00","hora_atracacao":"12:30","mes_key":"2026-11","ja_atracado":false,"ja_passou":false,"badge_tipo":"aguardando","badge_label":"Previsto Multi","praticagem_confirmada":"NÃO","praticagem_entrada":"","praticagem_terminal":"","praticagem_divergencia_texto":"","praticagem_sem_divergencia":false,"historico_alteracoes":[{"campo":"Saída","de":"30/11/2026 07:00","para":"30/11/2026 13:00","data_coleta":"23/11 15:01","texto":"[23/11 15:01] Saída: 30/11/2026 07:00 → 30/11/2026 13:00"},{"campo":"Atracação","de":"29/11/2026 07:00","para":"29/11/2026 12:30","data_coleta":"23/11 15:01","texto":"[23/11 15:01] Atracação: 29/11/2026 07:00 → 29/11/2026 12:30"},{"campo":"Saída","de":"29/11/2026 07:00","para":"30/11/2026 07:00","data_coleta":"18/11 08:31","texto":"[18/11 08:31] Saída: 29/11/2026 07:00 → 30/11/2026 07:00"},{"campo":"Atracação","de":"28/11/2026 07:00","para":"29/11/2026 07:00","data_coleta":"18/11 08:31","texto":"[18/11 08:31] Atracação: 28/11/2026 07:00 → 29/11/2026 07:00"},{"campo":"Saída","de":"26/11/2026 07:00","para":"29/11/2026 07:00","data_coleta":"11/11 18:33","texto":"[11/11 18:33] Saída: 26/11/2026 07:00 → 29/11/2026 07:00"},{"campo":"Atracação","de":"25/11/2026 07:00","para":"28/11/2026 07:00","data_coleta":"11/11 18:33","texto":"[11/11 18:33] Atracação: 25/11/2026 07:00 → 28/11/2026 07:00"},{"campo":"Saída","de":"22/11/2026 07:00","para":"26/11/2026 07:00","data_coleta":"09/11 09:51","texto":"[09/11 09:51] Saída: 22/11/2026 07:00 → 26/11/2026 07:00"},{"campo":"Atracação","de":"21/11/2026 07:00","para":"25/11/2026 07:00","data_coleta":"09/11 09:51","texto":"[09/11 09:51] Atracação: 21/11/2026 07:00 → 25/11/2026 07:00"},{"campo":"Saída","de":"21/11/2026 07:00","para":"22/11/2026 07:00","data_coleta":"03/11 10:03","texto":"[03/11 10:03] Saída: 21/11/2026 07:00 → 22/11/2026 07:00"},{"campo":"Atracação","de":"20/11/2026 07:00","para":"21/11/2026 07:00","data_coleta":"03/11 10:03","texto":"[03/11 10:03] Atracação: 20/11/2026 07:00 → 21/11/2026 07:00"},{"campo":"Saída","de":"16/11/2026 07:00","para":"21/11/2026 07:00","data_coleta":"28/10 08:07","texto":"[28/10 08:07] Saída: 16/11/2026 07:00 → 21/11/2026 07:00"},{"campo":"Atracação","de":"15/11/2026 07:00","para":"20/11/2026 07:00","data_coleta":"28/10 08:07","texto":"[28/10 08:07] Atracação: 15/11/2026 07:00 → 20/11/2026 07:00"}],"link_marinetraffic":"https://www.marinetraffic.com/en/ais/home/shipid:0/zoom:10/keyword:BRASILIA%20HIGHWAY","link_vesselfinder":"https://www.vesselfinder.com/vessels?name=BRASILIA%20HIGHWAY","link_gcal":"https://calendar.google.com/calendar/render?action=TEMPLATE&text=Atraca%C3%A7%C3%A3o+prevista+%E2%80%94+BRASILIA+HIGHWAY&dates=20261129T153000Z%2F20261129T160000Z&ctz=America%2FSao_Paulo&location=Terminal+T5+%E2%80%94+MultiTerminais+%28Porto+do+Rio+de+Janeiro%29&details=Armador%3A+K-LINE%0AViagem%3A+175A%0AFonte%3A+MultiTerminais+T5+%28previs%C3%A3o+sujeita+a+altera%C3%A7%C3%B5es%29.","aviso_repeticao":""}]},{"dia":30,"data_iso":"2026-11-30","data_br":"30/11/2026","dia_semana":"Segunda-feira","eh_domingo":false,"hoje":false,"tem_navio":true,"navios":[{"navio_base":"HORIZON RAY","viagem":"029","srv":"K.LINE","armador":"K-LINE","tipo_navio":"RORO_PURO","tipo_navio_label":"Ro-Ro Puro (PCTC)","atracacao":"30/11/2026 04:30","atracacao_real":"","saida":"01/12/2026 05:30","saida_real":"","data_iso":"2026-11-30","atracacao_iso_full":"2026-11-30T04:30:00-03:00","hora_atracacao":"04:30","mes_key":"2026-11","ja_atracado":false,"ja_passou":false,"badge_tipo":"aguardando","badge_label":"Previsto Multi","praticagem_confirmada":"NÃO","praticagem_entrada":"","praticagem_terminal":"","praticagem_divergencia_texto":"","praticagem_sem_divergencia":false,"historico_alteracoes":[{"campo":"Atracação","de":"30/11/2026 05:30","para":"30/11/2026 04:30","data_coleta":"24/11 10:16","texto":"[24/11 10:16] Atracação: 30/11/2026 05:30 → 30/11/2026 04:30"}],"link_marinetraffic":"https://www.marinetraffic.com/en/ais/home/shipid:0/zoom:10/keyword:HORIZON%20RAY","link_vesselfinder":"https://www.vesselfinder.com/vessels?name=HORIZON%20RAY","link_gcal":"https://calendar.google.com/calendar/render?action=TEMPLATE&text=Atraca%C3%A7%C3%A3o+prevista+%E2%80%94+HORIZON+RAY&dates=20261130T073000Z%2F20261130T080000Z&ctz=America%2FSao_Paulo&location=Terminal+T5+%E2%80%94+MultiTerminais+%28Porto+do+Rio+de+Janeiro%29&details=Armador%3A+K-LINE%0AViagem%3A+029%0AFonte%3A+MultiTerminais+T5+%28previs%C3%A3o+sujeita+a+altera%C3%A7%C3%B5es%29.","aviso_repeticao":""}]}]},{"key":"2026-12","label":"Dezembro / 2026","ano":2026,"mes":12,"is_atual":false,"primeiro_dia_semana":1,"total_dias":31,"navios_roro":[{"nome_base":"GRANDE SAN PAOLO","ja_atracado":false,"ja_passou":false},{"nome_base":"GRANDE SIERRA LEONE","ja_atracado":false,"ja_passou":false},{"nome_base":"GRANDE GUINEA","ja_atracado":false,"ja_passou":false},{"nome_base":"GOODWOOD","ja_atracado":false,"ja_passou":false},{"nome_base":"GRANDE NIGERIA","ja_atracado":false,"ja_passou":false}],"dias":[{"dia":1,"data_iso":"2026-12-01","data_br":"01/12/2026","dia_semana":"Terça-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":2,"data_iso":"2026-12-02","data_br":"02/12/2026","dia_semana":"Quarta-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":3,"data_iso":"2026-12-03","data_br":"03/12/2026","dia_semana":"Quinta-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":4,"data_iso":"2026-12-04","data_br":"04/12/2026","dia_semana":"Sexta-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":5,"data_iso":"2026-12-05","data_br":"05/12/2026","dia_semana":"Sábado","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":6,"data_iso":"2026-12-06","data_br":"06/12/2026","dia_semana":"Domingo","eh_domingo":true,"hoje":false,"tem_navio":false,"navios":[]},{"dia":7,"data_iso":"2026-12-07","data_br":"07/12/2026","dia_semana":"Segunda-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":8,"data_iso":"2026-12-08","data_br":"08/12/2026","dia_semana":"Terça-feira","eh_domingo":false,"hoje":false,"tem_navio":true,"navios":[{"navio_base":"GRANDE SAN PAOLO","viagem":"526N","srv":"GRIMALDI","armador":"GRIMALDI","tipo_navio":"CON_RO","tipo_navio_label":"Con-Ro Híbrido","atracacao":"08/12/2026 07:00","atracacao_real":"","saida":"09/12/2026 07:00","saida_real":"","data_iso":"2026-12-08","atracacao_iso_full":"2026-12-08T07:00:00-03:00","hora_atracacao":"07:00","mes_key":"2026-12","ja_atracado":false,"ja_passou":false,"badge_tipo":"aguardando","badge_label":"Previsto Multi","praticagem_confirmada":"NÃO","praticagem_entrada":"","praticagem_terminal":"","praticagem_divergencia_texto":"","praticagem_sem_divergencia":false,"historico_alteracoes":[{"campo":"Saída","de":"08/12/2026 07:00","para":"09/12/2026 07:00","data_coleta":"24/11 14:11","texto":"[24/11 14:11] Saída: 08/12/2026 07:00 → 09/12/2026 07:00"},{"campo":"Atracação","de":"07/12/2026 07:00","para":"08/12/2026 07:00","data_coleta":"24/11 14:11","texto":"[24/11 14:11] Atracação: 07/12/2026 07:00 → 08/12/2026 07:00"},{"campo":"Saída","de":"15/11/2026 07:00","para":"19/11/2026 07:00","data_coleta":"26/10 15:51","texto":"[26/10 15:51] Saída: 15/11/2026 07:00 → 19/11/2026 07:00"},{"campo":"Atracação","de":"14/11/2026 07:00","para":"18/11/2026 07:00","data_coleta":"26/10 15:51","texto":"[26/10 15:51] Atracação: 14/11/2026 07:00 → 18/11/2026 07:00"},{"campo":"Saída","de":"12/11/2026 07:00","para":"15/11/2026 07:00","data_coleta":"16/10 10:23","texto":"[16/10 10:23] Saída: 12/11/2026 07:00 → 15/11/2026 07:00"},{"campo":"Atracação","de":"11/11/2026 07:00","para":"14/11/2026 07:00","data_coleta":"16/10 10:23","texto":"[16/10 10:23] Atracação: 11/11/2026 07:00 → 14/11/2026 07:00"},{"campo":"Saída","de":"04/10/2026 07:00","para":"09/10/2026 09:30","data_coleta":"30/09 13:02","texto":"[30/09 13:02] Saída: 04/10/2026 07:00 → 09/10/2026 09:30"},{"campo":"Atracação","de":"03/10/2026 07:00","para":"08/10/2026 08:30","data_coleta":"30/09 13:02","texto":"[30/09 13:02] Atracação: 03/10/2026 07:00 → 08/10/2026 08:30"}],"link_marinetraffic":"https://www.marinetraffic.com/en/ais/home/shipid:0/zoom:10/keyword:GRANDE%20SAN%20PAOLO","link_vesselfinder":"https://www.vesselfinder.com/vessels?name=GRANDE%20SAN%20PAOLO","link_gcal":"https://calendar.google.com/calendar/render?action=TEMPLATE&text=Atraca%C3%A7%C3%A3o+prevista+%E2%80%94+GRANDE+SAN+PAOLO&dates=20261208T100000Z%2F20261208T103000Z&ctz=America%2FSao_Paulo&location=Terminal+T5+%E2%80%94+MultiTerminais+%28Porto+do+Rio+de+Janeiro%29&details=Armador%3A+GRIMALDI%0AViagem%3A+526N%0AFonte%3A+MultiTerminais+T5+%28previs%C3%A3o+sujeita+a+altera%C3%A7%C3%B5es%29.","aviso_repeticao":""}]},{"dia":9,"data_iso":"2026-12-09","data_br":"09/12/2026","dia_semana":"Quarta-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":10,"data_iso":"2026-12-10","data_br":"10/12/2026","dia_semana":"Quinta-feira","eh_domingo":false,"hoje":false,"tem_navio":true,"navios":[{"navio_base":"GRANDE SIERRA LEONE","viagem":"626S","srv":"GRIMALDI","armador":"GRIMALDI","tipo_navio":"CON_RO","tipo_navio_label":"Con-Ro Híbrido","atracacao":"10/12/2026 07:00","atracacao_real":"","saida":"11/12/2026 07:00","saida_real":"","data_iso":"2026-12-10","atracacao_iso_full":"2026-12-10T07:00:00-03:00","hora_atracacao":"07:00","mes_key":"2026-12","ja_atracado":false,"ja_passou":false,"badge_tipo":"aguardando","badge_label":"Previsto Multi","praticagem_confirmada":"NÃO","praticagem_entrada":"","praticagem_terminal":"","praticagem_divergencia_texto":"","praticagem_sem_divergencia":false,"historico_alteracoes":[{"campo":"Saída","de":"11/12/2026 07:00","para":"25/12/2026 17:00","data_coleta":"24/11 17:13","texto":"[24/11 17:13] Saída: 11/12/2026 07:00 → 25/12/2026 17:00"},{"campo":"Atracação","de":"10/12/2026 07:00","para":"24/12/2026 17:00","data_coleta":"24/11 17:13","texto":"[24/11 17:13] Atracação: 10/12/2026 07:00 → 24/12/2026 17:00"}],"link_marinetraffic":"https://www.marinetraffic.com/en/ais/home/shipid:0/zoom:10/keyword:GRANDE%20SIERRA%20LEONE","link_vesselfinder":"https://www.vesselfinder.com/vessels?name=GRANDE%20SIERRA%20LEONE","link_gcal":"https://calendar.google.com/calendar/render?action=TEMPLATE&text=Atraca%C3%A7%C3%A3o+prevista+%E2%80%94+GRANDE+SIERRA+LEONE&dates=20261210T100000Z%2F20261210T103000Z&ctz=America%2FSao_Paulo&location=Terminal+T5+%E2%80%94+MultiTerminais+%28Porto+do+Rio+de+Janeiro%29&details=Armador%3A+GRIMALDI%0AViagem%3A+626S%0AFonte%3A+MultiTerminais+T5+%28previs%C3%A3o+sujeita+a+altera%C3%A7%C3%B5es%29.","aviso_repeticao":"Este navio possui 2 escalas previstas neste mês (Dezembro / 2026)."}]},{"dia":11,"data_iso":"2026-12-11","data_br":"11/12/2026","dia_semana":"Sexta-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":12,"data_iso":"2026-12-12","data_br":"12/12/2026","dia_semana":"Sábado","eh_domingo":false,"hoje":false,"tem_navio":true,"navios":[{"navio_base":"GRANDE GUINEA","viagem":"626N","srv":"GRIMALDI","armador":"GRIMALDI","tipo_navio":"CON_RO","tipo_navio_label":"Con-Ro Híbrido","atracacao":"12/12/2026 07:00","atracacao_real":"","saida":"13/12/2026 07:00","saida_real":"","data_iso":"2026-12-12","atracacao_iso_full":"2026-12-12T07:00:00-03:00","hora_atracacao":"07:00","mes_key":"2026-12","ja_atracado":false,"ja_passou":false,"badge_tipo":"aguardando","badge_label":"Previsto Multi","praticagem_confirmada":"NÃO","praticagem_entrada":"","praticagem_terminal":"","praticagem_divergencia_texto":"","praticagem_sem_divergencia":false,"historico_alteracoes":[{"campo":"Saída","de":"13/12/2026 07:00","para":"28/11/2026 02:00","data_coleta":"24/11 17:13","texto":"[24/11 17:13] Saída: 13/12/2026 07:00 → 28/11/2026 02:00"},{"campo":"Atracação","de":"12/12/2026 07:00","para":"26/11/2026 20:00","data_coleta":"24/11 17:13","texto":"[24/11 17:13] Atracação: 12/12/2026 07:00 → 26/11/2026 20:00"},{"campo":"Saída","de":"13/12/2026 07:00","para":"27/11/2026 07:00","data_coleta":"24/11 13:41","texto":"[24/11 13:41] Saída: 13/12/2026 07:00 → 27/11/2026 07:00"},{"campo":"Atracação","de":"12/12/2026 07:00","para":"26/11/2026 01:00","data_coleta":"24/11 13:41","texto":"[24/11 13:41] Atracação: 12/12/2026 07:00 → 26/11/2026 01:00"},{"campo":"Saída","de":"13/12/2026 07:00","para":"28/11/2026 07:00","data_coleta":"23/11 11:29","texto":"[23/11 11:29] Saída: 13/12/2026 07:00 → 28/11/2026 07:00"},{"campo":"Atracação","de":"12/12/2026 07:00","para":"27/11/2026 05:00","data_coleta":"23/11 11:29","texto":"[23/11 11:29] Atracação: 12/12/2026 07:00 → 27/11/2026 05:00"},{"campo":"Saída","de":"13/12/2026 07:00","para":"26/11/2026 07:00","data_coleta":"18/11 14:04","texto":"[18/11 14:04] Saída: 13/12/2026 07:00 → 26/11/2026 07:00"},{"campo":"Atracação","de":"12/12/2026 07:00","para":"25/11/2026 07:00","data_coleta":"18/11 14:04","texto":"[18/11 14:04] Atracação: 12/12/2026 07:00 → 25/11/2026 07:00"},{"campo":"Saída","de":"12/12/2026 07:00","para":"13/12/2026 07:00","data_coleta":"16/11 15:40","texto":"[16/11 15:40] Saída: 12/12/2026 07:00 → 13/12/2026 07:00"},{"campo":"Atracação","de":"11/12/2026 07:00","para":"12/12/2026 07:00","data_coleta":"16/11 15:40","texto":"[16/11 15:40] Atracação: 11/12/2026 07:00 → 12/12/2026 07:00"},{"campo":"Saída","de":"17/10/2026 07:00","para":"17/10/2026 19:00","data_coleta":"16/10 14:56","texto":"[16/10 14:56] Saída: 17/10/2026 07:00 → 17/10/2026 19:00"},{"campo":"Atracação","de":"16/10/2026 14:30","para":"17/10/2026 02:30","data_coleta":"16/10 14:56","texto":"[16/10 14:56] Atracação: 16/10/2026 14:30 → 17/10/2026 02:30"},{"campo":"Saída","de":"16/10/2026 23:00","para":"17/10/2026 07:00","data_coleta":"16/10 10:23","texto":"[16/10 10:23] Saída: 16/10/2026 23:00 → 17/10/2026 07:00"},{"campo":"Atracação","de":"16/10/2026 06:30","para":"16/10/2026 14:30","data_coleta":"16/10 10:23","texto":"[16/10 10:23] Atracação: 16/10/2026 06:30 → 16/10/2026 14:30"},{"campo":"Saída","de":"16/10/2026 07:00","para":"16/10/2026 23:00","data_coleta":"14/10 21:37","texto":"[14/10 21:37] Saída: 16/10/2026 07:00 → 16/10/2026 23:00"},{"campo":"Atracação","de":"15/10/2026 14:30","para":"16/10/2026 06:30","data_coleta":"14/10 21:37","texto":"[14/10 21:37] Atracação: 15/10/2026 14:30 → 16/10/2026 06:30"},{"campo":"Atracação","de":"15/10/2026 07:00","para":"15/10/2026 14:30","data_coleta":"12/10 08:23","texto":"[12/10 08:23] Atracação: 15/10/2026 07:00 → 15/10/2026 14:30"}],"link_marinetraffic":"https://www.marinetraffic.com/en/ais/details/ships/imo:9437919","link_vesselfinder":"https://www.vesselfinder.com/vessels?name=9437919","link_gcal":"https://calendar.google.com/calendar/render?action=TEMPLATE&text=Atraca%C3%A7%C3%A3o+prevista+%E2%80%94+GRANDE+GUINEA&dates=20261212T100000Z%2F20261212T103000Z&ctz=America%2FSao_Paulo&location=Terminal+T5+%E2%80%94+MultiTerminais+%28Porto+do+Rio+de+Janeiro%29&details=Armador%3A+GRIMALDI%0AViagem%3A+626N%0AFonte%3A+MultiTerminais+T5+%28previs%C3%A3o+sujeita+a+altera%C3%A7%C3%B5es%29.","aviso_repeticao":""},{"navio_base":"GOODWOOD","viagem":"52A","srv":"K.LINE","armador":"K-LINE","tipo_navio":"RORO_PURO","tipo_navio_label":"Ro-Ro Puro (PCTC)","atracacao":"12/12/2026 07:00","atracacao_real":"","saida":"13/12/2026 07:00","saida_real":"","data_iso":"2026-12-12","atracacao_iso_full":"2026-12-12T07:00:00-03:00","hora_atracacao":"07:00","mes_key":"2026-12","ja_atracado":false,"ja_passou":false,"badge_tipo":"aguardando","badge_label":"Previsto Multi","praticagem_confirmada":"NÃO","praticagem_entrada":"","praticagem_terminal":"","praticagem_divergencia_texto":"","praticagem_sem_divergencia":false,"historico_alteracoes":[{"campo":"Saída","de":"10/12/2026 07:00","para":"13/12/2026 07:00","data_coleta":"18/11 08:31","texto":"[18/11 08:31] Saída: 10/12/2026 07:00 → 13/12/2026 07:00"},{"campo":"Atracação","de":"09/12/2026 07:00","para":"12/12/2026 07:00","data_coleta":"18/11 08:31","texto":"[18/11 08:31] Atracação: 09/12/2026 07:00 → 12/12/2026 07:00"},{"campo":"Saída","de":"08/12/2026 07:00","para":"10/12/2026 07:00","data_coleta":"11/11 18:33","texto":"[11/11 18:33] Saída: 08/12/2026 07:00 → 10/12/2026 07:00"},{"campo":"Atracação","de":"07/12/2026 07:00","para":"09/12/2026 07:00","data_coleta":"11/11 18:33","texto":"[11/11 18:33] Atracação: 07/12/2026 07:00 → 09/12/2026 07:00"},{"campo":"Saída","de":"05/12/2026 07:00","para":"08/12/2026 07:00","data_coleta":"09/11 09:51","texto":"[09/11 09:51] Saída: 05/12/2026 07:00 → 08/12/2026 07:00"},{"campo":"Atracação","de":"04/12/2026 07:00","para":"07/12/2026 07:00","data_coleta":"09/11 09:51","texto":"[09/11 09:51] Atracação: 04/12/2026 07:00 → 07/12/2026 07:00"},{"campo":"Saída","de":"29/10/2026 21:30","para":"30/10/2026 07:30","data_coleta":"27/10 16:03","texto":"[27/10 16:03] Saída: 29/10/2026 21:30 → 30/10/2026 07:30"},{"campo":"Atracação","de":"29/10/2026 02:30","para":"29/10/2026 18:00","data_coleta":"27/10 16:03","texto":"[27/10 16:03] Atracação: 29/10/2026 02:30 → 29/10/2026 18:00"},{"campo":"Saída","de":"29/10/2026 07:30","para":"29/10/2026 21:30","data_coleta":"27/10 14:32","texto":"[27/10 14:32] Saída: 29/10/2026 07:30 → 29/10/2026 21:30"},{"campo":"Atracação","de":"28/10/2026 12:30","para":"29/10/2026 02:30","data_coleta":"27/10 14:32","texto":"[27/10 14:32] Atracação: 28/10/2026 12:30 → 29/10/2026 02:30"},{"campo":"Saída","de":"28/10/2026 16:30","para":"29/10/2026 07:30","data_coleta":"26/10 15:51","texto":"[26/10 15:51] Saída: 28/10/2026 16:30 → 29/10/2026 07:30"},{"campo":"Atracação","de":"27/10/2026 21:30","para":"28/10/2026 12:30","data_coleta":"26/10 15:51","texto":"[26/10 15:51] Atracação: 27/10/2026 21:30 → 28/10/2026 12:30"},{"campo":"Saída","de":"28/10/2026 07:30","para":"28/10/2026 16:30","data_coleta":"22/10 16:55","texto":"[22/10 16:55] Saída: 28/10/2026 07:30 → 28/10/2026 16:30"},{"campo":"Atracação","de":"27/10/2026 12:30","para":"27/10/2026 21:30","data_coleta":"22/10 16:55","texto":"[22/10 16:55] Atracação: 27/10/2026 12:30 → 27/10/2026 21:30"},{"campo":"Saída","de":"27/10/2026 07:00","para":"28/10/2026 07:30","data_coleta":"21/10 15:34","texto":"[21/10 15:34] Saída: 27/10/2026 07:00 → 28/10/2026 07:30"},{"campo":"Atracação","de":"26/10/2026 12:00","para":"27/10/2026 12:30","data_coleta":"21/10 15:34","texto":"[21/10 15:34] Atracação: 26/10/2026 12:00 → 27/10/2026 12:30"},{"campo":"Atracação","de":"26/10/2026 07:00","para":"26/10/2026 12:00","data_coleta":"19/10 14:22","texto":"[19/10 14:22] Atracação: 26/10/2026 07:00 → 26/10/2026 12:00"},{"campo":"Saída","de":"28/10/2026 07:00","para":"05/10/2026 09:30","data_coleta":"30/09 21:54","texto":"[30/09 21:54] Saída: 28/10/2026 07:00 → 05/10/2026 09:30"},{"campo":"Atracação","de":"27/10/2026 07:00","para":"04/10/2026 11:30","data_coleta":"30/09 21:54","texto":"[30/09 21:54] Atracação: 27/10/2026 07:00 → 04/10/2026 11:30"},{"campo":"Saída","de":"26/10/2026 07:00","para":"28/10/2026 07:00","data_coleta":"30/09 13:02","texto":"[30/09 13:02] Saída: 26/10/2026 07:00 → 28/10/2026 07:00"},{"campo":"Atracação","de":"25/10/2026 07:00","para":"27/10/2026 07:00","data_coleta":"30/09 13:02","texto":"[30/09 13:02] Atracação: 25/10/2026 07:00 → 27/10/2026 07:00"},{"campo":"Saída","de":"26/10/2026 07:00","para":"05/10/2026 09:30","data_coleta":"30/09 13:02","texto":"[30/09 13:02] Saída: 26/10/2026 07:00 → 05/10/2026 09:30"},{"campo":"Atracação","de":"25/10/2026 07:00","para":"04/10/2026 11:30","data_coleta":"30/09 13:02","texto":"[30/09 13:02] Atracação: 25/10/2026 07:00 → 04/10/2026 11:30"}],"link_marinetraffic":"https://www.marinetraffic.com/en/ais/details/ships/imo:9701140","link_vesselfinder":"https://www.vesselfinder.com/vessels?name=9701140","link_gcal":"https://calendar.google.com/calendar/render?action=TEMPLATE&text=Atraca%C3%A7%C3%A3o+prevista+%E2%80%94+GOODWOOD&dates=20261212T100000Z%2F20261212T103000Z&ctz=America%2FSao_Paulo&location=Terminal+T5+%E2%80%94+MultiTerminais+%28Porto+do+Rio+de+Janeiro%29&details=Armador%3A+K-LINE%0AViagem%3A+52A%0AFonte%3A+MultiTerminais+T5+%28previs%C3%A3o+sujeita+a+altera%C3%A7%C3%B5es%29.","aviso_repeticao":""}]},{"dia":13,"data_iso":"2026-12-13","data_br":"13/12/2026","dia_semana":"Domingo","eh_domingo":true,"hoje":false,"tem_navio":false,"navios":[]},{"dia":14,"data_iso":"2026-12-14","data_br":"14/12/2026","dia_semana":"Segunda-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":15,"data_iso":"2026-12-15","data_br":"15/12/2026","dia_semana":"Terça-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":16,"data_iso":"2026-12-16","data_br":"16/12/2026","dia_semana":"Quarta-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":17,"data_iso":"2026-12-17","data_br":"17/12/2026","dia_semana":"Quinta-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":18,"data_iso":"2026-12-18","data_br":"18/12/2026","dia_semana":"Sexta-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":19,"data_iso":"2026-12-19","data_br":"19/12/2026","dia_semana":"Sábado","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":20,"data_iso":"2026-12-20","data_br":"20/12/2026","dia_semana":"Domingo","eh_domingo":true,"hoje":false,"tem_navio":false,"navios":[]},{"dia":21,"data_iso":"2026-12-21","data_br":"21/12/2026","dia_semana":"Segunda-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":22,"data_iso":"2026-12-22","data_br":"22/12/2026","dia_semana":"Terça-feira","eh_domingo":false,"hoje":false,"tem_navio":true,"navios":[{"navio_base":"GRANDE NIGERIA","viagem":"726S","srv":"GRIMALDI","armador":"GRIMALDI","tipo_navio":"CON_RO","tipo_navio_label":"Con-Ro Híbrido","atracacao":"22/12/2026 07:00","atracacao_real":"","saida":"23/12/2026 07:00","saida_real":"","data_iso":"2026-12-22","atracacao_iso_full":"2026-12-22T07:00:00-03:00","hora_atracacao":"07:00","mes_key":"2026-12","ja_atracado":false,"ja_passou":false,"badge_tipo":"aguardando","badge_label":"Previsto Multi","praticagem_confirmada":"NÃO","praticagem_entrada":"","praticagem_terminal":"","praticagem_divergencia_texto":"","praticagem_sem_divergencia":false,"historico_alteracoes":[],"link_marinetraffic":"https://www.marinetraffic.com/en/ais/details/ships/imo:9246580","link_vesselfinder":"https://www.vesselfinder.com/vessels?name=9246580","link_gcal":"https://calendar.google.com/calendar/render?action=TEMPLATE&text=Atraca%C3%A7%C3%A3o+prevista+%E2%80%94+GRANDE+NIGERIA&dates=20261222T100000Z%2F20261222T103000Z&ctz=America%2FSao_Paulo&location=Terminal+T5+%E2%80%94+MultiTerminais+%28Porto+do+Rio+de+Janeiro%29&details=Armador%3A+GRIMALDI%0AViagem%3A+726S%0AFonte%3A+MultiTerminais+T5+%28previs%C3%A3o+sujeita+a+altera%C3%A7%C3%B5es%29.","aviso_repeticao":""}]},{"dia":23,"data_iso":"2026-12-23","data_br":"23/12/2026","dia_semana":"Quarta-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":24,"data_iso":"2026-12-24","data_br":"24/12/2026","dia_semana":"Quinta-feira","eh_domingo":false,"hoje":false,"tem_navio":true,"navios":[{"navio_base":"GRANDE SIERRA LEONE","viagem":"626N","srv":"GRIMALDI","armador":"GRIMALDI","tipo_navio":"CON_RO","tipo_navio_label":"Con-Ro Híbrido","atracacao":"24/12/2026 17:00","atracacao_real":"","saida":"25/12/2026 17:00","saida_real":"","data_iso":"2026-12-24","atracacao_iso_full":"2026-12-24T17:00:00-03:00","hora_atracacao":"17:00","mes_key":"2026-12","ja_atracado":false,"ja_passou":false,"badge_tipo":"aguardando","badge_label":"Previsto Multi","praticagem_confirmada":"NÃO","praticagem_entrada":"","praticagem_terminal":"","praticagem_divergencia_texto":"","praticagem_sem_divergencia":false,"historico_alteracoes":[{"campo":"Saída","de":"11/12/2026 07:00","para":"25/12/2026 17:00","data_coleta":"24/11 17:13","texto":"[24/11 17:13] Saída: 11/12/2026 07:00 → 25/12/2026 17:00"},{"campo":"Atracação","de":"10/12/2026 07:00","para":"24/12/2026 17:00","data_coleta":"24/11 17:13","texto":"[24/11 17:13] Atracação: 10/12/2026 07:00 → 24/12/2026 17:00"}],"link_marinetraffic":"https://www.marinetraffic.com/en/ais/home/shipid:0/zoom:10/keyword:GRANDE%20SIERRA%20LEONE","link_vesselfinder":"https://www.vesselfinder.com/vessels?name=GRANDE%20SIERRA%20LEONE","link_gcal":"https://calendar.google.com/calendar/render?action=TEMPLATE&text=Atraca%C3%A7%C3%A3o+prevista+%E2%80%94+GRANDE+SIERRA+LEONE&dates=20261224T200000Z%2F20261224T203000Z&ctz=America%2FSao_Paulo&location=Terminal+T5+%E2%80%94+MultiTerminais+%28Porto+do+Rio+de+Janeiro%29&details=Armador%3A+GRIMALDI%0AViagem%3A+626N%0AFonte%3A+MultiTerminais+T5+%28previs%C3%A3o+sujeita+a+altera%C3%A7%C3%B5es%29.","aviso_repeticao":"Este navio possui 2 escalas previstas neste mês (Dezembro / 2026)."}]},{"dia":25,"data_iso":"2026-12-25","data_br":"25/12/2026","dia_semana":"Sexta-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":26,"data_iso":"2026-12-26","data_br":"26/12/2026","dia_semana":"Sábado","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":27,"data_iso":"2026-12-27","data_br":"27/12/2026","dia_semana":"Domingo","eh_domingo":true,"hoje":false,"tem_navio":false,"navios":[]},{"dia":28,"data_iso":"2026-12-28","data_br":"28/12/2026","dia_semana":"Segunda-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":29,"data_iso":"2026-12-29","data_br":"29/12/2026","dia_semana":"Terça-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":30,"data_iso":"2026-12-30","data_br":"30/12/2026","dia_semana":"Quarta-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]},{"dia":31,"data_iso":"2026-12-31","data_br":"31/12/2026","dia_semana":"Quinta-feira","eh_domingo":false,"hoje":false,"tem_navio":false,"navios":[]}]}]};
+    const $ = id => document.getElementById(id);
+
+    const monthList = (DATA && Array.isArray(DATA.meses)) ? DATA.meses : [];
+    const defaultMonthObj = monthList.find(m => m.is_atual) || monthList[monthList.length - 1] || monthList[0];
+    let currentMonthKey = defaultMonthObj ? defaultMonthObj.key : '';
+    let currentShipFilter = 'all';
+    let currentModeFilter = 'all';
+    let selectedCalDayIso = null;
+
+    function getSelectedMonthData() {
+      if (!monthList.length) {
+        return { key: '', label: 'Sem programação', dias: [], navios_roro: [], primeiro_dia_semana: 0 };
+      }
+      return monthList.find(m => m.key === currentMonthKey) || monthList[0];
+    }
+
+    function escapeHtml(txt) {
+      return String(txt || '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+    }
+
+    function updateHeader() {
+      const meta = DATA.meta || {};
+      $('headerDateDisplay').textContent = `Atualizado em ${meta.geradoEm || '-'} (Horário de Brasília)`;
+      const mData = getSelectedMonthData();
+      const escalas = collectMonthScales(mData);
+      const pratCount = escalas.filter(s => s.praticagem_confirmada === 'SIM').length;
+      $('scaleStatusText').textContent = `${escalas.length} Escalas • ${pratCount} na Praticagem`;
+    }
+
+    function collectMonthScales(mData) {
+      const list = [];
+      (mData.dias || []).forEach(d => {
+        (d.navios || []).forEach(n => list.push({ day: d, ship: n }));
+      });
+      return list;
+    }
+
+    function matchesMode(d, n) {
+      if (currentModeFilter === 'previstos') return !n.ja_atracado && !n.ja_passou;
+      if (currentModeFilter === 'praticagem') return n.praticagem_confirmada === 'SIM';
+      if (currentModeFilter === 'domingos') return d.eh_domingo;
+      if (currentModeFilter === 'atracados') return n.ja_atracado || n.ja_passou;
+      return true;
+    }
+
+    function initControls() {
+      const monthSel = $('monthSelect');
+      if (monthList.length) {
+        monthSel.innerHTML = monthList.map(m => `<option value="${escapeHtml(m.key)}">${escapeHtml(m.label)}</option>`).join('');
+        monthSel.value = currentMonthKey;
+      }
+
+      const syncMonthButtons = () => {
+        const idx = monthList.findIndex(m => m.key === currentMonthKey);
+        $('prevMonthBtn').disabled = idx <= 0;
+        $('nextMonthBtn').disabled = idx < 0 || idx >= monthList.length - 1;
+      };
+
+      monthSel.addEventListener('change', () => {
+        currentMonthKey = monthSel.value;
+        currentShipFilter = 'all';
+        selectedCalDayIso = null;
+        syncMonthButtons();
+        updateShipSelect();
+        renderAll();
+      });
+
+      $('prevMonthBtn').addEventListener('click', () => {
+        const idx = monthList.findIndex(m => m.key === currentMonthKey);
+        if (idx > 0) {
+          currentMonthKey = monthList[idx - 1].key;
+          monthSel.value = currentMonthKey;
+          currentShipFilter = 'all';
+          selectedCalDayIso = null;
+          syncMonthButtons();
+          updateShipSelect();
+          renderAll();
+        }
+      });
+
+      $('nextMonthBtn').addEventListener('click', () => {
+        const idx = monthList.findIndex(m => m.key === currentMonthKey);
+        if (idx >= 0 && idx < monthList.length - 1) {
+          currentMonthKey = monthList[idx + 1].key;
+          monthSel.value = currentMonthKey;
+          currentShipFilter = 'all';
+          selectedCalDayIso = null;
+          syncMonthButtons();
+          updateShipSelect();
+          renderAll();
+        }
+      });
+
+      $('shipSelect').addEventListener('change', () => {
+        currentShipFilter = $('shipSelect').value;
+        selectedCalDayIso = null;
+        renderAll();
+      });
+
+      document.querySelectorAll('#quickChips [data-mode]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('#quickChips [data-mode]').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentModeFilter = btn.dataset.mode;
+          selectedCalDayIso = null;
+          renderAll();
+        });
+      });
+
+      $('clearDayBtn').addEventListener('click', () => {
+        selectedCalDayIso = null;
+        renderAll();
+      });
+
+      syncMonthButtons();
+      updateShipSelect();
+    }
+
+    function updateShipSelect() {
+      const mData = getSelectedMonthData();
+      const shipSel = $('shipSelect');
+      const allShips = mData.navios_roro || [];
+      const futuros = allShips.filter(s => !s.ja_atracado && !s.ja_passou);
+      const passados = allShips.filter(s => s.ja_atracado || s.ja_passou);
+
+      let html = `<option value="all">Todos os navios do mês (${allShips.length})</option>`;
+      if (futuros.length) {
+        html += `<optgroup label="Previstos no Lineup (${futuros.length})">`;
+        futuros.forEach(s => {
+          html += `<option value="${escapeHtml(s.nome_base)}">${escapeHtml(s.nome_base)}</option>`;
+        });
+        html += '</optgroup>';
+      }
+      if (passados.length) {
+        html += `<optgroup label="Atracados / Anteriores (${passados.length})">`;
+        passados.forEach(s => {
+          html += `<option value="${escapeHtml(s.nome_base)}">${escapeHtml(s.nome_base)}</option>`;
+        });
+        html += '</optgroup>';
+      }
+      shipSel.innerHTML = html;
+      if (![...shipSel.options].some(o => o.value === currentShipFilter)) {
+        currentShipFilter = 'all';
+      }
+      shipSel.value = currentShipFilter;
+    }
+
+    function renderKpis(mData) {
+      const scales = collectMonthScales(mData);
+      const futuros = scales.filter(({ ship }) => !ship.ja_atracado && !ship.ja_passou);
+      const prat = scales.filter(({ ship }) => ship.praticagem_confirmada === 'SIM');
+      const doms = scales.filter(({ day }) => day.eh_domingo);
+
+      $('kpiTotalMes').textContent = scales.length;
+      $('kpiTotalMesSub').textContent = `${futuros.length} prevista(s) a atracar`;
+
+      $('kpiPratMes').textContent = prat.length;
+      $('kpiPratMesSub').textContent = prat.length ? `${prat.map(x => x.ship.navio_base).slice(0, 2).join(', ')}` : 'aguardando confirmação';
+
+      $('kpiDomMes').textContent = doms.length;
+      $('kpiDomMesSub').textContent = doms.length ? 'atenção especial no fim de semana' : 'nenhuma atracação no domingo';
+
+      const prox = futuros.sort((a, b) => a.ship.atracacao_iso_full.localeCompare(b.ship.atracacao_iso_full))[0];
+      if (prox) {
+        $('kpiProxNavio').textContent = prox.ship.navio_base;
+        $('kpiProxData').textContent = `${prox.ship.atracacao} (${prox.day.dia_semana})`;
+      } else {
+        $('kpiProxNavio').textContent = '—';
+        $('kpiProxData').textContent = 'sem escala futura neste mês';
+      }
+    }
+
+    function renderCalendarGrid(mData) {
+      $('calMonthTitle').textContent = mData.label || 'Programação Mensal';
+      const grid = $('miniCalGrid');
+      const dows = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
+      grid.innerHTML = dows.map((d, idx) => `<div class="mini-cal-dow ${idx === 6 ? 'dom' : ''}">${d}</div>`).join('');
+
+      const firstDow = mData.primeiro_dia_semana || 0;
+      for (let i = 0; i < firstDow; i++) {
+        grid.insertAdjacentHTML('beforeend', '<div class="mini-cal-day empty"></div>');
+      }
+
+      const dias = mData.dias || [];
+      dias.forEach(d => {
+        const naviosDia = (d.navios || []).filter(n =>
+          (currentShipFilter === 'all' || n.navio_base === currentShipFilter) && matchesMode(d, n)
+        );
+        const temNavio = naviosDia.length > 0;
+        const temPrat = naviosDia.some(n => n.praticagem_confirmada === 'SIM');
+        const temDomShip = d.eh_domingo && temNavio;
+        const isSelected = selectedCalDayIso === d.data_iso;
+
+        const dotsHtml = naviosDia.map(n => {
+          const cls = d.eh_domingo ? 'dom' : (n.praticagem_confirmada === 'SIM' ? 'prat' : ((n.ja_atracado || n.ja_passou) ? 'done' : ''));
+          return `<span class="mini-dot ${cls}"></span>`;
+        }).join('');
+
+        const pillsHtml = naviosDia.map(n => {
+          const cls = d.eh_domingo ? 'dom' : (n.praticagem_confirmada === 'SIM' ? 'prat' : (n.ja_atracado ? 'atracado' : ''));
+          return `<div class="cal-ship-pill ${cls}" title="${escapeHtml(n.hora_atracacao + ' ' + n.navio_base)}"><span class="eta-t">${escapeHtml(n.hora_atracacao)}</span>${escapeHtml(n.navio_base)}</div>`;
+        }).join('');
+
+        grid.insertAdjacentHTML('beforeend', `
+          <div class="mini-cal-day ${temNavio ? 'has-ship' : ''} ${temPrat ? 'has-prat' : ''} ${temDomShip ? 'has-sunday-ship' : ''} ${d.hoje ? 'today' : ''} ${isSelected ? 'selected' : ''}" data-iso="${escapeHtml(d.data_iso)}">
+            <div class="cal-day-top">
+              <span class="cal-day-num">${d.dia}</span>
+              ${temDomShip ? '<span style="font:700 8px Space Mono,monospace;color:#fca5a5;">DOM</span>' : ''}
+            </div>
+            ${temNavio ? `<div class="cal-dots-row">${dotsHtml}</div><div class="cal-desktop-ships">${pillsHtml}</div>` : ''}
+          </div>
+        `);
+      });
+
+      grid.querySelectorAll('[data-iso]').forEach(el => {
+        el.addEventListener('click', () => {
+          const iso = el.dataset.iso;
+          selectedCalDayIso = (selectedCalDayIso === iso) ? null : iso;
+          renderAll();
+          if (selectedCalDayIso) {
+            const cardEl = $(`card-${selectedCalDayIso}`);
+            if (cardEl) cardEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        });
+      });
+
+      const clearBtn = $('clearDayBtn');
+      if (selectedCalDayIso) {
+        const dObj = dias.find(x => x.data_iso === selectedCalDayIso);
+        clearBtn.textContent = `Dia ${dObj ? dObj.data_br : selectedCalDayIso} × Limpar`;
+        clearBtn.classList.add('visible');
+      } else {
+        clearBtn.classList.remove('visible');
+      }
+    }
+
+    function renderAgendaCards(mData) {
+      const container = $('agendaCardsList');
+      container.innerHTML = '';
+
+      const items = [];
+      (mData.dias || []).forEach(d => {
+        if (selectedCalDayIso && d.data_iso !== selectedCalDayIso) return;
+        (d.navios || []).forEach(n => {
+          if ((currentShipFilter === 'all' || n.navio_base === currentShipFilter) && matchesMode(d, n)) {
+            items.push({ day: d, ship: n });
+          }
+        });
+      });
+
+      $('agendaCount').textContent = `${items.length} escala${items.length === 1 ? '' : 's'}`;
+
+      if (!items.length) {
+        container.innerHTML = '<div style="grid-column:1/-1;color:var(--muted);padding:26px 14px;text-align:center;background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);font-size:12.5px;">Nenhum navio de carros encontrado para o filtro selecionado neste mês.</div>';
+        return;
+      }
+
+      items.forEach(({ day: d, ship: n }) => {
+        const pratOk = n.praticagem_confirmada === 'SIM';
+        const pratBox = pratOk ? `
+          <div class="prat-box ok">
+            <div class="prat-box-title">Praticagem RJ — Manobra Confirmada</div>
+            <div>
+              Manobra de entrada: <strong>${escapeHtml(n.praticagem_entrada || '-')}</strong>
+              ${n.praticagem_terminal ? `(${escapeHtml(n.praticagem_terminal)})` : ''}
+            </div>
+            ${n.praticagem_divergencia_texto ? `<span class="div-pill ${n.praticagem_sem_divergencia ? 'match' : ''}">Divergência Multi × Praticagem: ${escapeHtml(n.praticagem_divergencia_texto)}</span>` : ''}
+          </div>
+        ` : `
+          <div class="prat-box">
+            <div class="prat-box-title">Praticagem RJ</div>
+            <div style="color:var(--sec);">Ainda não consta manobra cadastrada no site da Praticagem (costuma publicar 24h a 48h antes da atracação).</div>
+          </div>
+        `;
+
+        const repeatNoticeHtml = n.aviso_repeticao ? `
+          <div class="repeat-notice">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            <span>${escapeHtml(n.aviso_repeticao)}</span>
+          </div>
+        ` : '';
+
+        const alteracoesList = n.historico_alteracoes || [];
+        const alteracaoHtml = alteracoesList.length ? `
+          <details class="alteracao-details">
+            <summary class="alteracao-summary">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              Histórico de alterações na Multi (${alteracoesList.length})
+            </summary>
+            <div class="alteracao-box">
+              <strong>Alterações registradas pela monitoria</strong>
+              ${alteracoesList.slice(0, 6).map(a => `<div>• ${escapeHtml(a.texto || `${a.campo}: ${a.de} → ${a.para}`)}</div>`).join('')}
+            </div>
+          </details>
+        ` : '';
+
+        const typeBadgeCls = n.tipo_navio === 'CON_RO' ? 'badge-conro' : 'badge-roro-puro';
+        const gcalBtn = n.link_gcal ? `
+          <a href="${escapeHtml(n.link_gcal)}" target="_blank" rel="noopener noreferrer" class="btn-action">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            Google Agenda
+          </a>
+        ` : '';
+
+        container.insertAdjacentHTML('beforeend', `
+          <article class="agenda-card ${selectedCalDayIso === d.data_iso ? 'active-day' : ''} ${d.eh_domingo ? 'sunday-card' : ''}" id="card-${escapeHtml(d.data_iso)}">
+            <div>
+              <div class="agenda-card-head">
+                <div>
+                  <div class="agenda-date">
+                    <span>${escapeHtml(d.data_br)} • ${escapeHtml(d.dia_semana)}</span>
+                    ${d.eh_domingo ? '<span class="badge-sunday">Domingo</span>' : ''}
+                  </div>
+                  <h3 class="agenda-ship-name">${escapeHtml(n.navio_base)}</h3>
+                  <div class="agenda-meta">
+                    <span class="${typeBadgeCls}">${escapeHtml(n.tipo_navio_label || 'Ro-Ro')}</span>
+                    <span>Armador: <strong>${escapeHtml(n.armador || 'OUTROS')}</strong></span>
+                    ${n.srv && n.srv !== '-' ? `<span>• SRV: ${escapeHtml(n.srv)}</span>` : ''}
+                    ${n.viagem && n.viagem !== '-' ? `<span>• Viagem: ${escapeHtml(n.viagem)}</span>` : ''}
+                  </div>
+                </div>
+                <span class="badge-prat ${escapeHtml(n.badge_tipo || 'aguardando')}">${escapeHtml(n.badge_label || 'Previsto')}</span>
+              </div>
+
+              <div class="times-grid">
+                <div class="time-box">
+                  <div class="time-box-lbl">${n.atracacao_real ? 'Atracação Real (Multi)' : 'Atracação Prevista (Multi)'}</div>
+                  <div class="time-box-val">${escapeHtml(n.atracacao_real || n.atracacao || '-')}</div>
+                </div>
+                <div class="time-box">
+                  <div class="time-box-lbl">${n.saida_real ? 'Saída Real (Multi)' : 'Saída Prevista (Multi)'}</div>
+                  <div class="time-box-val">${escapeHtml(n.saida_real || n.saida || '-')}</div>
+                </div>
+              </div>
+
+              ${pratBox}
+              ${repeatNoticeHtml}
+              ${alteracaoHtml}
+            </div>
+
+            <div class="agenda-actions">
+              <a href="${escapeHtml(n.link_marinetraffic)}" target="_blank" rel="noopener noreferrer" class="btn-action">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+                MarineTraffic
+              </a>
+              <a href="${escapeHtml(n.link_vesselfinder)}" target="_blank" rel="noopener noreferrer" class="btn-action">
+                <svg viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"></polygon></svg>
+                VesselFinder
+              </a>
+              ${gcalBtn}
+            </div>
+          </article>
+        `);
+      });
+    }
+
+    function renderAll() {
+      const mData = getSelectedMonthData();
+      updateHeader();
+      renderKpis(mData);
+      renderCalendarGrid(mData);
+      renderAgendaCards(mData);
+      $('footerText').textContent = `Fontes: MultiTerminais (Programação T5) + Praticagem-RJ • Atualizado em ${(DATA.meta && DATA.meta.geradoEm) || '-'}`;
+    }
+
+    initControls();
+    renderAll();
+  </script>
+</body>
+</html>
